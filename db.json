@@ -1,0 +1,24 @@
+{
+  "users": [
+    {
+      "id": "taras.frbslist@gmail.com",
+      "firstName": "Joe",
+      "lastName": "Tribiani",
+      "Password": "1234",
+      "notes": [
+        {
+          "text": "First Note ",
+          "subNotes": []
+        },
+        {
+          "text": "Second Note",
+          "subNotes": []
+        },
+        {
+          "text": "Third Note",
+          "subNotes": []
+        }
+      ]
+    }
+  ]
+}

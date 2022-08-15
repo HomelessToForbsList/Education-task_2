@@ -4,18 +4,16 @@
       "id": "taras.frbslist@gmail.com",
       "firstName": "Joe",
       "lastName": "Tribiani",
-      "Password": "1234",
+      "password": "1234",
       "notes": [
         {
-          "text": "First Note ",
+          "id": 1660562942986,
+          "text": "2",
           "subNotes": []
         },
         {
-          "text": "Second Note",
-          "subNotes": []
-        },
-        {
-          "text": "Third Note",
+          "id": 1660563216730,
+          "text": "4",
           "subNotes": []
         }
       ]

@@ -5,6 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 
+
 import { deepPurple, indigo } from '@mui/material/colors';
 
 
@@ -18,9 +19,9 @@ export default function NoteMenu(props) {
   ];
   
   const functions = [
-    () => props.openSubNoteForm(props.note, 'Edit Note',props.note, props.isParent),
-    () => console.log('Remove subNotes'),
-    () => props.openSubNoteForm(props.note, 'Add SubNote',props.note, props.isParent)
+    () => props.openSubNoteForm(props.note, 'Edit Note',props.noteId, props.isParent),
+    () => {props.deleteSubNotes(props.isParent, props.noteId); props.handleClickSnackBar()},
+    () => props.openSubNoteForm(props.note, 'Add SubNote',props.noteId, props.isParent)
   ]
 
 
@@ -74,4 +75,4 @@ export default function NoteMenu(props) {
   );
 }
 
-//={props.theme ? noteMenuBlueStyle : noteMenuPurpleStyle}
+

@@ -12,24 +12,37 @@ export default function NoteList(props) {
     <Box sx={{ width: '100%', mt: 3 }}>
       <Stack spacing={2}>
         {
-          props.notes.map((item) => (
-            <div key={item.text} style={{marginLeft: '5%'}}>
+          props.notes.map((item,index,array) => (
+            <div key={item.text + Math.random()} style={{marginLeft: '5%'}}>
             <Note
-            key={item.text}
+            key={item.text + Math.random()}
             isParent={props.isParent}
             note={item.text}
+            noteId={item.id}
+            arr={array}
+            index={index}
             theme={props.theme}
             deleteNote={props.deleteNote}
-            openSubNoteForm={props.openSubNoteForm}>
+            replaceNote={props.replaceNote}
+            deleteSubNotes={props.deleteSubNotes}
+            openSubNoteForm={props.openSubNoteForm}
+            handleClickSnackBar={props.handleClickSnackBar}
+            TransitionUp={props.TransitionUp}
+            >
             </Note>
             {item.subNotes.length ? [item].map(obj =>
             <NoteList
-            key={obj.text}
+            key={obj.text + +Math.random()}
             isParent={false}
             notes={obj.subNotes}
             theme={props.theme}
             deleteNote={props.deleteNote}
-            openSubNoteForm={props.openSubNoteForm}/>) : null}
+            replaceNote={props.replaceNote}
+            deleteSubNotes={props.deleteSubNotes}
+            openSubNoteForm={props.openSubNoteForm}
+            handleClickSnackBar={props.handleClickSnackBar}
+            TransitionUp={props.TransitionUp}
+            />) : null}
             </div>
           )
         )

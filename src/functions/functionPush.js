@@ -7,7 +7,7 @@ export function push(obj, coordinates, str) {
       obj[coordinates[i]].subNotes.forEach(el => {
         if (el.text === str) unique = false
       })
-      if (unique) obj[coordinates[i]].subNotes.push({ text: str, subNotes: [] })
+      if (unique) obj[coordinates[i]].subNotes.push({id:Date.now(), text: str, subNotes: [] })
       else alert('такая заметка уже существует!')
     }
     else { r(obj[coordinates[i]].subNotes, i + 1) }

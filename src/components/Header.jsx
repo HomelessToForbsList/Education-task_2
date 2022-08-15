@@ -11,6 +11,17 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LogInForm from './LogInForm'
 
 export default function Header(props) {
+
+  const defaultProfile = {
+    "id": null,
+    "firstName": "",
+    "lastName": "",
+    "password": "",
+    "notes": []
+  }
+
+
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -28,8 +39,11 @@ export default function Header(props) {
           <Typography  component="div" sx={{ flexGrow: 1 }}>
             Change Theme
           </Typography>
-          <Button color="inherit"><LogoutIcon/></Button>
-          <LogInForm/>
+          <Typography  component="h2" sx={{ flexGrow: 1 }}>
+            Hello, {props.firstName ?  props.firstName : 'friend'}!
+          </Typography>
+          <Button color="inherit" onClick={e => props.setProfile(defaultProfile)}><LogoutIcon/></Button>
+          <LogInForm setProfile={props.setProfile} notes={props.notes}/>
         </Toolbar>
       </AppBar>
     </Box>

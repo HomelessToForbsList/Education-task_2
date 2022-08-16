@@ -13,6 +13,7 @@ import axios from 'axios';
 
 
 
+
 export default function LogInForm(props) {
   const [open, setOpen] = React.useState(false);
   const [operation, setOperation] = React.useState('LogIn');
@@ -152,14 +153,17 @@ export default function LogInForm(props) {
     setPasswordFocus(false)
   }
 
-
   const handleLogin = (e) => {
     e.preventDefault();
     operation === 'LogIn' ?
       axios.get(`http://localhost:3001/users?id=${email}&password=${password}`)
         .then(res => {
-          if (res.data.length === 0) alert('Wrong email or password!')
-          else { props.setProfile(res.data[0]) }
+          if (res.data.length === 0) props.handleClickSnackBar('error', 'Wrong email or password')
+          else {
+            props.setProfile(res.data[0])
+            props.handleClickSnackBar('success', 'Logged In!')
+            localStorage.setItem('accountId',res.data[0].id)
+          }
         })
         .then(() => { handleClose() })
       :
@@ -171,21 +175,19 @@ export default function LogInForm(props) {
           "firstName": firstName,
           "lastName": lastName,
           "password": password,
-          "notes": props.notes
+          "notes": props.profileId ? [] : props.notes
         }
       })
-        .then(res => props.setProfile(res.data))
-        .then(() => { handleClose() })
-        .then(()=>{
-          localStorage.setItem('account',JSON.stringify({
-            "id": email,
-            "firstName": firstName,
-            "lastName": lastName,
-            "password": password,
-            "notes": props.notes
-          }))
+        .then(res => {
+          props.setProfile(res.data)
+          props.handleClickSnackBar('success', 'Account created!')
+          localStorage.setItem('accountId',res.data.id)
         })
+        .then(() => { handleClose() })
+        .catch(function(error){props.handleClickSnackBar('error', 'Account already exist!')})
   }
+
+
 
   return (
     <div>

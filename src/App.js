@@ -37,6 +37,14 @@ function App() {
     "notes": []
   })
 
+  React.useEffect(() => {
+    const user = (localStorage.getItem('accountId'))
+    if (user) {
+      axios.get(`http://localhost:3001/users?id=${user}`)
+        .then(res => { setProfile(res.data[0]) })
+    }
+  }, [])
+
   const [theme, setTheme] = useState(false)
 
 
@@ -117,7 +125,7 @@ function App() {
 
 
   function addNote(note) {
-    profile.notes.push({id: Date.now() , text: note, subNotes: [] })
+    profile.notes.push({ id: Date.now(), text: note, subNotes: [] })
     if (!profile.id) {
       const obj = {
         "id": null,
@@ -142,9 +150,11 @@ function App() {
   }
 
   function addSubNote(noteId, subnote) {
+    debugger
     let noteList = profile.notes
     const coordinates = search(noteList, noteId)
     noteList = push(noteList, coordinates, subnote)
+    debugger
     if (!profile.id) {
       const obj = {
         "id": null,
@@ -223,17 +233,17 @@ function App() {
       }
       setProfile(obj)
     }
-    else{
-    axios({
-      method: "PATCH",
-      url: `http://localhost:3001/users/${profile.id}`,
-      data: {
-        notes: noteList,
-      }
-    })
-      .then(axios.get(`http://localhost:3001/users/${profile.id}`))
-      .then(res => setProfile(res.data))
-  }
+    else {
+      axios({
+        method: "PATCH",
+        url: `http://localhost:3001/users/${profile.id}`,
+        data: {
+          notes: noteList,
+        }
+      })
+        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
+        .then(res => setProfile(res.data))
+    }
   }
 
   function deleteSubNotes(isParent, noteId) {
@@ -256,27 +266,29 @@ function App() {
       }
       setProfile(obj)
     }
-    else{
-    axios({
-      method: "PATCH",
-      url: `http://localhost:3001/users/${profile.id}`,
-      data: {
-        notes: noteList,
-      }
-    })
-      .then(axios.get(`http://localhost:3001/users/${profile.id}`))
-      .then(res => setProfile(res.data))
-  }
+    else {
+      axios({
+        method: "PATCH",
+        url: `http://localhost:3001/users/${profile.id}`,
+        data: {
+          notes: noteList,
+        }
+      })
+        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
+        .then(res => setProfile(res.data))
+    }
   }
 
 
   const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [situationAlert, setSituationAlert] = React.useState({ severity: 'success', message: '' })
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const handleClickSnackBar = () => {
+  const handleClickSnackBar = (severity, message) => {
+    setSituationAlert({ severity: severity, message: message })
     setOpenSnackBar(true);
   };
 
@@ -284,24 +296,25 @@ function App() {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpenSnackBar(false);
   };
 
 
-  localStorage.setItem('name','Joe Tribiani')
-
-  console.log(localStorage.getItem('name'))
-
-
   return (
     <ThemeProvider theme={!theme ? purpleTheme : deepBlueTheme}>
-      <Header changeTheme={setTheme} theme={theme} setProfile={setProfile} notes={profile.notes} firstName={profile.firstName}/>
-      <Container maxWidth={false} disableGutters={true}>
+      <Container maxWidth='lg' disableGutters={true}>
+        <Header
+          changeTheme={setTheme}
+          theme={theme}
+          setProfile={setProfile}
+          notes={profile.notes}
+          firstName={profile.firstName}
+          profileId={profile.id}
+          handleClickSnackBar={handleClickSnackBar}
+        />
         <Box sx={{ bgcolor: 'secondary.main', height: '100vh', py: 1, px: 5, my: 0, mx: 'auto' }}>
           <AddForm addNote={addNote} />
           <NoteList
-            key={+Math.random()}
             isParent={true}
             notes={profile.notes}
             theme={theme}
@@ -319,8 +332,8 @@ function App() {
           />
         </Box>
         <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar}>
-          <Alert onClose={handleCloseSnackBar} severity="success" sx={{ width: '100%' }}>
-            Sublist removed!
+          <Alert onClose={handleCloseSnackBar} severity={situationAlert.severity} sx={{ width: '100%' }}>
+            {situationAlert.message}
           </Alert>
         </Snackbar>
       </Container>

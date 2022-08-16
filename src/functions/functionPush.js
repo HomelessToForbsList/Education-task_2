@@ -1,5 +1,6 @@
 
 export function push(obj, coordinates, str) {
+  debugger
   let i = 0;
   let unique = true;
   (function r(obj, i) {

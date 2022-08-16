@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
+
 import NoteMenu from './NoteMenu'
 
 export default function Note(props) {
@@ -22,13 +23,14 @@ export default function Note(props) {
   }
 
 
+
   return (
     <Box
       sx={{
         maxWidth: 1,
         backgroundColor: '#fff',
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'row',
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'column', maxWidth: 52 }}>

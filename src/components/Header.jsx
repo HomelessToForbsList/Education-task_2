@@ -42,8 +42,13 @@ export default function Header(props) {
           <Typography  component="h2" sx={{ flexGrow: 1 }}>
             Hello, {props.firstName ?  props.firstName : 'friend'}!
           </Typography>
-          <Button color="inherit" onClick={e => props.setProfile(defaultProfile)}><LogoutIcon/></Button>
-          <LogInForm setProfile={props.setProfile} notes={props.notes}/>
+          <Button color="inherit" onClick={e => {props.setProfile(defaultProfile); localStorage.removeItem('accountId')}}><LogoutIcon/></Button>
+          <LogInForm 
+          setProfile={props.setProfile}
+          notes={props.notes}
+          profileId={props.profileId}
+          handleClickSnackBar={props.handleClickSnackBar}
+          />
         </Toolbar>
       </AppBar>
     </Box>

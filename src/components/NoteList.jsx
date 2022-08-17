@@ -12,14 +12,22 @@ import Note from './Note'
 
 export default function NoteList(props) {
 
+  const [visibleSubNotes, setVisibleSubNotes] = React.useState(false)
+
+
+  // setTimeout(() => {
+  //   setVisible(true)
+  // }, 3000);
+
   return (
-    <Box sx={{ mt: 1 }}>
+    <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
         <TransitionGroup>
         {props.notes.map((item, index, array) => (
-            <Collapse key={ item.text} timeout={700} sx={{mb:'10px', ml: '20px'}}>
+            <Collapse key={ item.id} timeout={500} sx={{ ml: '20px',display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
               <Note
                 key={item.text + Math.random()}
                 isParent={props.isParent}
+                counter={item.subNotes.length}
                 note={item.text}
                 noteId={item.id}
                 arr={array}
@@ -30,10 +38,11 @@ export default function NoteList(props) {
                 deleteSubNotes={props.deleteSubNotes}
                 openSubNoteForm={props.openSubNoteForm}
                 handleClickSnackBar={props.handleClickSnackBar}
+                setVisibleSubNotes={setVisibleSubNotes}
               />
               <TransitionGroup>
-              {item.subNotes.length ? [item].map(obj =>
-              <Collapse key={obj.text} timeout={700} >
+              {item.subNotes.length && visibleSubNotes ? [item].map(obj =>
+              <Collapse  key={obj.id} timeout={500} >
                   <NoteList
                     isParent={false}
                     notes={obj.subNotes}

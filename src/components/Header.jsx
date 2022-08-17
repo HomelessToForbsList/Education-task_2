@@ -32,17 +32,21 @@ export default function Header(props) {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={e => props.changeTheme(!props.theme)}
+            onClick={e => {props.changeTheme(!props.theme); localStorage.setItem('theme',!props.theme)}}
           >
             <PaletteIcon/>
           </IconButton>
           <Typography  component="div" sx={{ flexGrow: 1 }}>
             Change Theme
           </Typography>
-          <Typography  component="h2" sx={{ flexGrow: 1 }}>
+          <Typography  variant="h5" sx={{ flexGrow: 1 }}>
             Hello, {props.firstName ?  props.firstName : 'friend'}!
           </Typography>
-          <Button color="inherit" onClick={e => {props.setProfile(defaultProfile); localStorage.removeItem('accountId')}}><LogoutIcon/></Button>
+          <Button
+          color="inherit"
+          onClick={e => {props.setProfile(defaultProfile); localStorage.removeItem('accountId')}}>
+            <LogoutIcon/>
+          </Button>
           <LogInForm 
           setProfile={props.setProfile}
           notes={props.notes}

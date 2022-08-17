@@ -192,7 +192,10 @@ export default function LogInForm(props) {
   return (
     <div>
       <Button color="inherit" onClick={handleOpen}>
-        <AccountCircleIcon />
+        <AccountCircleIcon /> 
+        <Typography  variant='subtitle2' sx={{ml:1}} >
+            LogIn/SingUp
+          </Typography>
       </Button>
       <Modal
         open={open}

@@ -15,13 +15,15 @@ export default function NoteMenu(props) {
   const options = [
     'Edit',
     'Remove Subnotes',
-    'Add Subnote'
+    'Add Subnote',
+    'Show/Hide Subnotes'
   ];
   
   const functions = [
     () => props.openSubNoteForm(props.note, 'Edit Note',props.noteId, props.isParent),
     () => {props.deleteSubNotes(props.isParent, props.noteId); props.handleClickSnackBar('success', 'SubNotes removed!')},
-    () => props.openSubNoteForm(props.note, 'Add SubNote',props.noteId, props.isParent)
+    () => props.openSubNoteForm(props.note, 'Add SubNote',props.noteId, props.isParent),
+    ()=> props.setVisibleSubNotes((prev) => !prev)
   ]
 
 
@@ -61,7 +63,7 @@ export default function NoteMenu(props) {
           backgroundColor: props.theme ? indigo[600] : deepPurple[500],
           maxWidth: 300,
           right: "20px",
-          left:0,
+          
           color: 'white'
         }}}
       >

@@ -9,6 +9,7 @@ import { Container } from '@mui/material';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
 
 
 import Header from './components/Header'
@@ -38,11 +39,13 @@ function App() {
   })
 
   React.useEffect(() => {
-    const user = (localStorage.getItem('accountId'))
+    const user = localStorage.getItem('accountId')
     if (user) {
       axios.get(`http://localhost:3001/users?id=${user}`)
         .then(res => { setProfile(res.data[0]) })
     }
+    const selectedTheme = localStorage.getItem('theme')
+    if(selectedTheme) setTheme(selectedTheme === 'false' ? false : true)
   }, [])
 
   const [theme, setTheme] = useState(false)
@@ -117,7 +120,6 @@ function App() {
           notes: noteList,
         }
       })
-        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
         .then(res => setProfile(res.data))
     }
   }
@@ -144,17 +146,14 @@ function App() {
           notes: profile.notes,
         }
       })
-        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
         .then(res => setProfile(res.data))
     }
   }
 
   function addSubNote(noteId, subnote) {
-    debugger
     let noteList = profile.notes
     const coordinates = search(noteList, noteId)
     noteList = push(noteList, coordinates, subnote)
-    debugger
     if (!profile.id) {
       const obj = {
         "id": null,
@@ -173,7 +172,6 @@ function App() {
           notes: noteList,
         }
       })
-        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
         .then(res => setProfile(res.data))
     }
   }
@@ -207,7 +205,6 @@ function App() {
           notes: noteList,
         }
       })
-        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
         .then(res => setProfile(res.data))
     }
   }
@@ -241,7 +238,6 @@ function App() {
           notes: noteList,
         }
       })
-        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
         .then(res => setProfile(res.data))
     }
   }
@@ -274,7 +270,6 @@ function App() {
           notes: noteList,
         }
       })
-        .then(axios.get(`http://localhost:3001/users/${profile.id}`))
         .then(res => setProfile(res.data))
     }
   }
@@ -300,6 +295,7 @@ function App() {
   };
 
 
+
   return (
     <ThemeProvider theme={!theme ? purpleTheme : deepBlueTheme}>
       <Container maxWidth='lg' disableGutters={true}>
@@ -312,7 +308,8 @@ function App() {
           profileId={profile.id}
           handleClickSnackBar={handleClickSnackBar}
         />
-        <Box sx={{ bgcolor: 'secondary.main', height: '100vh', py: 1, px: 5, my: 0, mx: 'auto' }}>
+        {profile.id ?
+          <Box sx={{ bgcolor: 'secondary.main', height: 'calc(100vh - 80px)', py: 1, px: 5, my: 0, mx: 'auto' }}>
           <AddForm addNote={addNote} />
           <NoteList
             isParent={true}
@@ -331,6 +328,13 @@ function App() {
             editNote={editNote}
           />
         </Box>
+        :
+        <Box sx={{ bgcolor: 'secondary.main', height: 'calc(100vh - 80px)', py: 1, px: 5, my: 0, mx: 'auto', display:'flex', alignItems:'center'}}>
+        <Typography  variant="h2" my='auto' align='center' sx={{ flexGrow: 1, color:'#fff' }}>
+            Please sing up or log in to add notes
+          </Typography>
+        </Box>
+        }
         <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar}>
           <Alert onClose={handleCloseSnackBar} severity={situationAlert.severity} sx={{ width: '100%' }}>
             {situationAlert.message}

@@ -4,10 +4,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-
-
 import { deepPurple, indigo } from '@mui/material/colors';
-
 
 
 export default function NoteMenu(props) {
@@ -18,12 +15,12 @@ export default function NoteMenu(props) {
     'Add Subnote',
     'Show/Hide Subnotes'
   ];
-  
+
   const functions = [
-    () => props.openSubNoteForm(props.note, 'Edit Note',props.noteId, props.isParent),
-    () => {props.deleteSubNotes(props.isParent, props.noteId); props.handleClickSnackBar('success', 'SubNotes removed!')},
-    () => props.openSubNoteForm(props.note, 'Add SubNote',props.noteId, props.isParent),
-    ()=> props.setVisibleSubNotes((prev) => !prev)
+    () => props.openSubNoteForm(props.note, 'Edit Note', props.noteId, props.isParent),
+    () => { props.deleteSubNotes(props.isParent, props.noteId); props.handleClickSnackBar('success', 'SubNotes removed!') },
+    () => props.openSubNoteForm(props.note, 'Add SubNote', props.noteId, props.isParent),
+    () => props.setVisibleSubNotes((prev) => !prev)
   ]
 
 
@@ -37,10 +34,10 @@ export default function NoteMenu(props) {
   };
 
 
-
   return (
     <div>
       <IconButton
+        size="large"
         aria-label="more"
         id="long-button"
         aria-controls={open ? 'long-menu' : undefined}
@@ -59,16 +56,17 @@ export default function NoteMenu(props) {
         open={open}
         onClose={handleClose}
         PaperProps
-        ={{style:{
-          backgroundColor: props.theme ? indigo[600] : deepPurple[500],
-          maxWidth: 300,
-          right: "20px",
-          
-          color: 'white'
-        }}}
+        ={{
+          style: {
+            backgroundColor: props.theme ? indigo[600] : deepPurple[500],
+            maxWidth: 300,
+            right: "20px",
+            color: 'white'
+          }
+        }}
       >
         {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={e =>{functions[options.indexOf(option)](); handleClose()}}>
+          <MenuItem key={option} selected={option === 'Pyxis'} onClick={e => { functions[options.indexOf(option)](); handleClose() }}>
             {option}
           </MenuItem>
         ))}

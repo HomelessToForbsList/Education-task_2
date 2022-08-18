@@ -45,7 +45,7 @@ function App() {
         .then(res => { setProfile(res.data[0]) })
     }
     const selectedTheme = localStorage.getItem('theme')
-    if(selectedTheme) setTheme(selectedTheme === 'false' ? false : true)
+    if (selectedTheme) setTheme(selectedTheme === 'false' ? false : true)
   }, [])
 
   const [theme, setTheme] = useState(false)
@@ -96,6 +96,26 @@ function App() {
     );
   };
 
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
+  const [situationAlert, setSituationAlert] = React.useState({ severity: 'success', message: '' })
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClickSnackBar = (severity, message) => {
+    setSituationAlert({ severity: severity, message: message })
+    setOpenSnackBar(true);
+  };
+
+  const handleCloseSnackBar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackBar(false);
+  };
+
+
 
   function deleteNote(noteId, isParent) {
     let noteList = profile.notes
@@ -127,26 +147,29 @@ function App() {
 
 
   function addNote(note) {
-    profile.notes.push({ id: Date.now(), text: note, subNotes: [] })
-    if (!profile.id) {
-      const obj = {
-        "id": null,
-        "firstName": "",
-        "lastName": "",
-        "password": "",
-        "notes": profile.notes
-      }
-      setProfile(obj)
-    }
+    if (note.length === 0) handleClickSnackBar('warning', 'Type something to add note!')
     else {
-      axios({
-        method: "PATCH",
-        url: `http://localhost:3001/users/${profile.id}`,
-        data: {
-          notes: profile.notes,
+      profile.notes.push({ id: Date.now(), text: note, subNotes: [] })
+      if (!profile.id) {
+        const obj = {
+          "id": null,
+          "firstName": "",
+          "lastName": "",
+          "password": "",
+          "notes": profile.notes
         }
-      })
-        .then(res => setProfile(res.data))
+        setProfile(obj)
+      }
+      else {
+        axios({
+          method: "PATCH",
+          url: `http://localhost:3001/users/${profile.id}`,
+          data: {
+            notes: profile.notes,
+          }
+        })
+          .then(res => setProfile(res.data))
+      }
     }
   }
 
@@ -275,26 +298,6 @@ function App() {
   }
 
 
-  const [openSnackBar, setOpenSnackBar] = React.useState(false);
-  const [situationAlert, setSituationAlert] = React.useState({ severity: 'success', message: '' })
-
-  const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-  });
-
-  const handleClickSnackBar = (severity, message) => {
-    setSituationAlert({ severity: severity, message: message })
-    setOpenSnackBar(true);
-  };
-
-  const handleCloseSnackBar = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpenSnackBar(false);
-  };
-
-
 
   return (
     <ThemeProvider theme={!theme ? purpleTheme : deepBlueTheme}>
@@ -309,31 +312,31 @@ function App() {
           handleClickSnackBar={handleClickSnackBar}
         />
         {profile.id ?
-          <Box sx={{ bgcolor: 'secondary.main', height: 'calc(100vh - 80px)', py: 1, px: 5, my: 0, mx: 'auto' }}>
-          <AddForm addNote={addNote} />
-          <NoteList
-            isParent={true}
-            notes={profile.notes}
-            theme={theme}
-            deleteNote={deleteNote}
-            replaceNote={replaceNote}
-            deleteSubNotes={deleteSubNotes}
-            openSubNoteForm={handleClickOpenSubNoteForm}
-            handleClickSnackBar={handleClickSnackBar}
-          />
-          <AddSubNoteForm
-            openSubNoteForm={openSubNoteForm}
-            close={handleClickCloseSubNoteForm}
-            addSubNote={addSubNote}
-            editNote={editNote}
-          />
-        </Box>
-        :
-        <Box sx={{ bgcolor: 'secondary.main', height: 'calc(100vh - 80px)', py: 1, px: 5, my: 0, mx: 'auto', display:'flex', alignItems:'center'}}>
-        <Typography  variant="h2" my='auto' align='center' sx={{ flexGrow: 1, color:'#fff' }}>
-            Please sing up or log in to add notes
-          </Typography>
-        </Box>
+          <Box sx={{ bgcolor: 'secondary.main', height: '100vh', py: 1, px: 5, my: 0, mx: 'auto' }}>
+            <AddForm addNote={addNote} />
+            <NoteList
+              isParent={true}
+              notes={profile.notes}
+              theme={theme}
+              deleteNote={deleteNote}
+              replaceNote={replaceNote}
+              deleteSubNotes={deleteSubNotes}
+              openSubNoteForm={handleClickOpenSubNoteForm}
+              handleClickSnackBar={handleClickSnackBar}
+            />
+            <AddSubNoteForm
+              openSubNoteForm={openSubNoteForm}
+              close={handleClickCloseSubNoteForm}
+              addSubNote={addSubNote}
+              editNote={editNote}
+            />
+          </Box>
+          :
+          <Box sx={{ bgcolor: 'secondary.main', height: 'calc(100vh - 80px)', py: 1, px: 5, my: 0, mx: 'auto', display: 'flex', alignItems: 'center' }}>
+            <Typography variant="h2" my='auto' align='center' sx={{ flexGrow: 1, color: '#fff' }}>
+              Please sing up or log in to add notes
+            </Typography>
+          </Box>
         }
         <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleCloseSnackBar}>
           <Alert onClose={handleCloseSnackBar} severity={situationAlert.severity} sx={{ width: '100%' }}>

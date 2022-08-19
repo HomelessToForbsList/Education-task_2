@@ -2,3 +2,14 @@
   margin: 0 auto;
 }
 
+@media screen and (max-width: 665px) {
+  .btn_box, .add_btn{
+    flex-grow: 1
+  }
+  .MuiCollapse-root{
+    margin-left: 0 !important;
+  }
+  .note{
+    flex-wrap: wrap;
+  }
+}

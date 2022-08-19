@@ -13,12 +13,12 @@ export default function AddForm(props) {
   return (
     <Box
       component="form"
-      sx={{ width: 1 / 2, my: 5, mx: 'auto', display: 'flex', flexWrap: 'nowrap', gap: 2 }}
+      sx={{ maxWidth: '600px', my: 5, mx: 'auto', display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center' }}
       noValidate
       autoComplete="off"
     >
       <TextField id="outlined-basic" label="Add new note" variant="outlined" sx={{ display: 'flex', flexGrow: 1, minWidth: 200 }} value={value} onChange={e => { setValue(e.target.value) }} />
-      <Button variant="contained" sx={{ height: 56, fontSize: 30 }} onClick={e => { props.addNote(value); setValue('') }}>+</Button>
+      <Button className='add_btn' variant="contained" sx={{ height: 56, fontSize: 30,display: 'flex'}} onClick={e => { props.addNote(value); setValue('') }}>+</Button>
     </Box>
   );
 }

@@ -27,11 +27,12 @@ export default function LogInForm(props) {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
+    maxWidth: 400,
+    minWidth: 300,
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 3,
   };
 
   let [firstName, setFirstName] = React.useState('')
@@ -162,7 +163,7 @@ export default function LogInForm(props) {
           else {
             props.setProfile(res.data[0])
             props.handleClickSnackBar('success', 'Logged In!')
-            localStorage.setItem('accountId',res.data[0].id)
+            localStorage.setItem('accountId', res.data[0].id)
           }
         })
         .then(() => { handleClose() })
@@ -181,10 +182,10 @@ export default function LogInForm(props) {
         .then(res => {
           props.setProfile(res.data)
           props.handleClickSnackBar('success', 'Account created!')
-          localStorage.setItem('accountId',res.data.id)
+          localStorage.setItem('accountId', res.data.id)
         })
         .then(() => { handleClose() })
-        .catch(function(error){props.handleClickSnackBar('error', 'Account already exist!')})
+        .catch(function (error) { props.handleClickSnackBar('error', 'Account already exist!') })
   }
 
 
@@ -192,10 +193,11 @@ export default function LogInForm(props) {
   return (
     <div>
       <Button color="inherit" onClick={handleOpen}>
-        <AccountCircleIcon /> 
-        <Typography  variant='subtitle2' sx={{ml:1}} >
-            LogIn/SingUp
-          </Typography>
+        <AccountCircleIcon />
+        <Typography variant='subtitle2' sx={{ ml: 1 }} >
+          LogIn /<br></br>
+          SingUp
+        </Typography>
       </Button>
       <Modal
         open={open}
@@ -203,7 +205,7 @@ export default function LogInForm(props) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box component="form" sx={boxStyle} autoComplete="off" onSubmit={e => handleLogin(e)}>
+        <Box className='' component="form" sx={boxStyle} autoComplete="off" onSubmit={e => handleLogin(e)}>
           <FormGroup sx={{ flexDirection: 'row', flexWrap: 'nowrap' }}>
             <Typography align='center' sx={{ my: 'auto', mr: 2 }}>Log In</Typography>
             <FormControlLabel control={<Switch onChange={handleSwitchChange} />} label='SingUp' />

@@ -5,6 +5,8 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -50,17 +52,33 @@ export default function Note(props) {
         borderRadius: 1
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Typography variant="h5" gutterBottom component="div" mx={4} my='auto' sx={{ display: 'flex', flexGrow: 1 }}>
+      <Box className='note' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Typography variant="h5" gutterBottom component="div" mx={4} my='auto' sx={{ display: 'flex', flexGrow: 3, minWidth: '200px', maxWidth:'500px' }}>
           {props.note}
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        <Box className='btn_box' sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
           {props.counter !== 0 &&
-            <Box sx={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: 'primary.main', display: 'flex', justifyContent: 'center', mx: 1 }}>
-              <Typography variant="subtitle1" gutterBottom component="div" my='auto' sx={{ color: '#fff' }} >
-                {props.counter}
-              </Typography>
-            </Box>}
+            <Box sx={{ position: 'relative' }}>
+              <IconButton
+                size="large"
+                edge={false}
+                color="inherit"
+                aria-label={'up' + props.note}
+                disableRipple={true}
+                onClick={e => props.changeVisibility(props.index)}
+              >
+                {props.visibleSubNotes[props.index] ?
+                  <VisibilityOffIcon fontSize="inherit" /> :
+                  <VisibilityIcon fontSize="inherit" />}
+              </IconButton>
+              {!props.visibleSubNotes[props.index] &&
+                <Box sx={{ position: 'absolute', top: 7, right: 7, mx: 0, width: '17px', height: '17px', borderRadius: '50%', backgroundColor: 'primary.main', display: 'flex', justifyContent: 'center' }}>
+                <Typography variant="caption" gutterBottom component="div" my='auto' sx={{ color: '#fff', lineHeight: 'normal' }} >
+                  {props.counter}
+                </Typography>
+              </Box>}
+            </Box>
+          }
           <IconButton
             size="large"
             edge={false}
@@ -83,8 +101,7 @@ export default function Note(props) {
           >
             <ExpandMoreIcon fontSize="inherit" />
           </IconButton>
-        </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        
           <NoteMenu
             theme={props.theme}
             openSubNoteForm={props.openSubNoteForm}
@@ -94,7 +111,6 @@ export default function Note(props) {
             deleteSubNotes={props.deleteSubNotes}
             handleClickSnackBar={props.handleClickSnackBar}
             TransitionUp={props.TransitionUp}
-            setVisibleSubNotes={props.setVisibleSubNotes}
           />
           <IconButton
             size="large"
@@ -105,7 +121,7 @@ export default function Note(props) {
           >
             <DeleteIcon fontSize="inherit" />
           </IconButton>
-        </Box>
+          </Box>
       </Box>
       <div>
         <Dialog

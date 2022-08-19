@@ -36,10 +36,7 @@ export default function Header(props) {
           >
             <PaletteIcon/>
           </IconButton>
-          <Typography  component="div" sx={{ flexGrow: 1 }}>
-            Change Theme
-          </Typography>
-          <Typography  variant="h5" sx={{ flexGrow: 1 }}>
+          <Typography  variant="h5" align='center' sx={{ flexGrow: 1 }}>
             Hello, {props.firstName ?  props.firstName : 'friend'}!
           </Typography>
           {props.profileId ?

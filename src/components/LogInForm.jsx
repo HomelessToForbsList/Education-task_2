@@ -11,28 +11,26 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 
 
-
+const boxStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  maxWidth: 400,
+  minWidth: 300,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 3,
+};
 
 
 export default function LogInForm(props) {
   const [open, setOpen] = React.useState(false);
   const [operation, setOperation] = React.useState('LogIn');
 
-  const handleSwitchChange = (event) => {
+  const handleSwitchChange = () => {
     setOperation(operation === 'LogIn' ? 'SingUp' : 'LogIn')
-  };
-
-  const boxStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: 400,
-    minWidth: 300,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 3,
   };
 
   let [firstName, setFirstName] = React.useState('')
@@ -139,19 +137,6 @@ export default function LogInForm(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setOperation('LogIn');
-    setEmail('');
-    setEmailError('')
-    setEmailFocus(false)
-    setFirstName('')
-    setFirstNameError('')
-    setFirstNameFocus(false)
-    setLastName('')
-    setLastNameError('')
-    setLastNameFocus(false)
-    setPassword('')
-    setPasswordError('')
-    setPasswordFocus(false)
   }
 
   const handleLogin = (e) => {
@@ -188,15 +173,12 @@ export default function LogInForm(props) {
         .catch(function (error) { props.handleClickSnackBar('error', 'Account already exist!') })
   }
 
-
-
   return (
     <div>
       <Button color="inherit" onClick={handleOpen}>
         <AccountCircleIcon />
         <Typography variant='subtitle2' sx={{ ml: 1 }} >
-          LogIn /<br></br>
-          SingUp
+          LogIn / SingUp
         </Typography>
       </Button>
       <Modal

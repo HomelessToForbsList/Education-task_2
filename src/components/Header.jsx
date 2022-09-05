@@ -32,26 +32,26 @@ export default function Header(props) {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
-            onClick={e => {props.changeTheme(!props.theme); localStorage.setItem('theme',!props.theme)}}
+            onClick={e => { props.changeTheme(!props.theme); localStorage.setItem('theme', !props.theme) }}
           >
-            <PaletteIcon/>
+            <PaletteIcon />
           </IconButton>
-          <Typography  variant="h5" align='center' sx={{ flexGrow: 1 }}>
-            Hello, {props.firstName ?  props.firstName : 'friend'}!
+          <Typography variant="h5" align='center' sx={{ flexGrow: 1 }}>
+            Hello, {props.firstName ? props.firstName : 'friend'}!
           </Typography>
           {props.profileId ?
-          <Button
-          color="inherit"
-          onClick={e => {props.setProfile(defaultProfile); localStorage.removeItem('accountId')}}>
-            <LogoutIcon/>
-          </Button>
-          :
-          <LogInForm 
-          setProfile={props.setProfile}
-          notes={props.notes}
-          profileId={props.profileId}
-          handleClickSnackBar={props.handleClickSnackBar}
-          />}
+            <Button
+              color="inherit"
+              onClick={e => { props.setProfile(defaultProfile); localStorage.removeItem('accountId') }}>
+              <LogoutIcon />
+            </Button>
+            :
+            <LogInForm
+              setProfile={props.setProfile}
+              notes={props.notes}
+              profileId={props.profileId}
+              handleClickSnackBar={props.handleClickSnackBar}
+            />}
         </Toolbar>
       </AppBar>
     </Box>

@@ -13,19 +13,19 @@ import Note from './Note'
 
 export default function NoteList(props) {
 
-  const arr =[]
-
-  for(let i =0 ; i < props.notes.length; i++){
-    arr.push(true)
+  function visibleValues(arr){
+    const visibleArray = arr.map(el => el = false)
+    return visibleArray
   }
 
-  const [visibleSubNotes, setVisibleSubNotes] = React.useState(arr)
+  const [visibleSubNotes, setVisibleSubNotes] = React.useState(visibleValues(props.notes))
 
   function changeVisibility(index){
     visibleSubNotes[index] = !visibleSubNotes[index]
     const newArr = visibleSubNotes.concat()
     setVisibleSubNotes(newArr)
   }
+
 
 
   return (

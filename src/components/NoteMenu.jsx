@@ -9,16 +9,16 @@ import { deepPurple, indigo } from '@mui/material/colors';
 
 export default function NoteMenu(props) {
 
-  const options = [
+  const options = props.hasSubNotes ? [
     'Edit',
-    'Remove Subnotes',
-    'Add Subnote'
-  ];
+    'Add Subnote',
+    'Remove Subnotes'
+  ] : ['Edit','Add Subnote',]
 
   const functions = [
     () => props.openSubNoteForm(props.note, 'Edit Note', props.noteId, props.isParent),
+    () => props.openSubNoteForm(props.note, 'Add SubNote', props.noteId, props.isParent),
     () => { props.deleteSubNotes(props.isParent, props.noteId); props.handleClickSnackBar('success', 'SubNotes removed!') },
-    () => props.openSubNoteForm(props.note, 'Add SubNote', props.noteId, props.isParent)
   ]
 
 
@@ -30,6 +30,7 @@ export default function NoteMenu(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
 
 
   return (

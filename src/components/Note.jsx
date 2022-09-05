@@ -19,6 +19,8 @@ import NoteMenu from './NoteMenu'
 
 export default function Note(props) {
 
+
+
   function isFirst(arr, index) {
     if (index === 0) return true
     else return false
@@ -40,7 +42,6 @@ export default function Note(props) {
   };
 
 
-
   return (
     <Box
       sx={{
@@ -53,17 +54,17 @@ export default function Note(props) {
       }}
     >
       <Box className='note' sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Typography variant="h5" gutterBottom component="div" mx={4} my='auto' sx={{ display: 'flex', flexGrow: 3, minWidth: '200px', maxWidth:'500px' }}>
+        <Typography variant="h5" gutterBottom component="div" mx={4} my='auto' sx={{ display: 'flex', flexGrow: 3, minWidth: '200px', maxWidth: '500px' }}>
           {props.note}
         </Typography>
-        <Box className='btn_box' sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+        <Box className='btn_box' sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           {props.counter !== 0 &&
             <Box sx={{ position: 'relative' }}>
               <IconButton
                 size="large"
                 edge={false}
                 color="inherit"
-                aria-label={'up' + props.note}
+                aria-label={'visibility' + props.note}
                 disableRipple={true}
                 onClick={e => props.changeVisibility(props.index)}
               >
@@ -73,10 +74,10 @@ export default function Note(props) {
               </IconButton>
               {!props.visibleSubNotes[props.index] &&
                 <Box sx={{ position: 'absolute', top: 7, right: 7, mx: 0, width: '17px', height: '17px', borderRadius: '50%', backgroundColor: 'primary.main', display: 'flex', justifyContent: 'center' }}>
-                <Typography variant="caption" gutterBottom component="div" my='auto' sx={{ color: '#fff', lineHeight: 'normal' }} >
-                  {props.counter}
-                </Typography>
-              </Box>}
+                  <Typography variant="caption" gutterBottom component="div" my='auto' sx={{ color: '#fff', lineHeight: 'normal' }} >
+                    {props.counter}
+                  </Typography>
+                </Box>}
             </Box>
           }
           <IconButton
@@ -101,7 +102,7 @@ export default function Note(props) {
           >
             <ExpandMoreIcon fontSize="inherit" />
           </IconButton>
-        
+
           <NoteMenu
             theme={props.theme}
             openSubNoteForm={props.openSubNoteForm}
@@ -110,7 +111,7 @@ export default function Note(props) {
             isParent={props.isParent}
             deleteSubNotes={props.deleteSubNotes}
             handleClickSnackBar={props.handleClickSnackBar}
-            TransitionUp={props.TransitionUp}
+            hasSubNotes={Boolean(props.arr[props.index].subNotes.length)}
           />
           <IconButton
             size="large"
@@ -121,7 +122,7 @@ export default function Note(props) {
           >
             <DeleteIcon fontSize="inherit" />
           </IconButton>
-          </Box>
+        </Box>
       </Box>
       <div>
         <Dialog

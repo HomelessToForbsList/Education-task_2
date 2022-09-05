@@ -28,6 +28,9 @@ import { deleteList } from './functions/functionDeleteList'
 
 
 
+
+
+
 function App() {
 
   const [profile, setProfile] = useState({
@@ -37,6 +40,8 @@ function App() {
     "password": "",
     "notes": []
   })
+
+
 
   React.useEffect(() => {
     const user = localStorage.getItem('accountId')
